@@ -22,11 +22,11 @@ export class PageCompiler extends TemplateCompiler {
   template: BaseTemplate | undefined | null;
   exiting = false;
   doNextScan = true;
-  scope: object;
+  scope: Record<string, unknown>;
 
-  constructor(scope: Record<string, any>) {
+  constructor(scope?: Record<string, unknown>) {
     super();
-    this.scope = scope;
+    this.scope = scope || {};
   }
 
   public tagPrint(text: string): void {
@@ -133,16 +133,20 @@ export class PageCompiler extends TemplateCompiler {
     throw new Error('endTag Method not implemented.');
   }
 
-  async execute(
-    template: BaseTemplate,
-    req: stream.Readable,
-    res: stream.Writable,
-    next: (err?: any) => void,
-  ): Promise<string> {
-    this.req = req;
-    this.res = res;
-    this.next = next;
-    this.template = template;
+  async execute(opts: {
+    template: BaseTemplate;
+    req?: stream.Readable;
+    res?: stream.Writable;
+    next?: (err?: any) => void;
+  }): Promise<string> {
+    this.req = opts.req;
+    this.res = opts.res;
+    this.next =
+      opts.next ||
+      ((): void => {
+        0;
+      });
+    this.template = opts.template;
     const source = this.source();
     this.parser = new TemplateParser(source);
 
@@ -201,7 +205,7 @@ export class PageCompiler extends TemplateCompiler {
     this.end();
 
     // Done !
-    template.compiledSource = this.compiledSource;
+    opts.template.compiledSource = this.compiledSource;
 
     return this.compiledSource;
   }

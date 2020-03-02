@@ -1,19 +1,30 @@
+import fs from 'fs';
+import path from 'path';
 import { BaseTemplate, PageCompiler } from '../template';
-import { StringResponse } from '../util';
-import stream from 'stream';
+
+//import { StringResponse } from '../util';
+//import stream from 'stream';
 
 describe('Template Test', () => {
-  it('asas', async () => {
-    const template: BaseTemplate = new BaseTemplate('testando template %{document.write("teste")}%');
-    template.name = 'teste';
-    const compiler: PageCompiler = new PageCompiler({});
+  it('Check if %{document.write("test")}% = "teste"', async () => {
+    const template: BaseTemplate = new BaseTemplate('test = %{<script>document.write("test")</script>}%');
 
-    try {
-      const res = new StringResponse();
-      await compiler.execute(template, new stream.Readable(), res, (err?: any) => void {});
-      console.log(res.data);
-    } catch (e) {
-      console.error('Error: ', e);
-    }
+    const compiler: PageCompiler = new PageCompiler();
+
+    await compiler.execute({ template });
+
+    expect(template.compiledSource).toBe('test = test');
+  });
+
+  it('Check test.xhtml = {"hello":"world"}', async () => {
+    const source = fs.readFileSync(path.join(__dirname, 'test.xhtml'), { encoding: 'utf8' });
+
+    const template: BaseTemplate = new BaseTemplate(source.trim());
+
+    const compiler: PageCompiler = new PageCompiler();
+
+    await compiler.execute({ template });
+
+    expect(template.compiledSource).toBe('{"hello":"world"}');
   });
 });
