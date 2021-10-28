@@ -33,12 +33,6 @@ export function typescriptTranspile(scriptSource: string, scriptName: string) {
     fileName: tsPath,
     moduleName: scriptName,
   });
-  // console.log(res1);
-  // console.log('-------');
-  // console.log(content);
-  // console.log('-------');
-  // console.log(res1.outputText);
-  // console.log('-------');
 
   // The path that the compiled module would have.
   const jsPath = path.resolve(`${scriptName}.js`);
