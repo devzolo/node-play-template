@@ -2,8 +2,9 @@
   "name": "@devzolo/node-play-template",
   "version": "1.0.0",
   "main": "dist",
+  "repository": "https://github.com/devzolo/node-play-template",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@devzolo"
+    "@devzolo:registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "prebuild": "rimraf dist",
@@ -33,14 +34,14 @@
     "@types/babel__generator": "^7.6.3",
     "@types/debug": "^4.1.7",
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.9.6",
-    "@types/react": "^17.0.31",
+    "@types/node": "^16.11.6",
+    "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/uuid": "^8.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.1.0",
-    "@typescript-eslint/parser": "^5.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
     "babel-plugin-module-resolver": "^4.1.0",
-    "eslint": "^8.0.1",
+    "eslint": "^8.1.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
