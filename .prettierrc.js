@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // Change your rules accordingly to your coding style preferences.
   // https://prettier.io/docs/en/options.html
   semi: true,

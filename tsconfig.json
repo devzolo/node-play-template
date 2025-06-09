@@ -1,8 +1,8 @@
 {
-  "compilerOptions": { 
-    "target": "ES2017",
-    "module": "commonjs",
-    "lib": ["ES6", "DOM", "DOM.Iterable"],
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "allowJs": true,
     "outDir": "./dist",
     "rootDir": "./src",
@@ -10,19 +10,26 @@
     "declarationMap": true,
     "removeComments": true,
     "strict": true,
+    "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types", "./src/@types"],
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@kitajs/html",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "./src/**/*"
-  ]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "dist", "coverage", "**/*.config.js", "**/*.config.ts", "**/*.test.*", "**/*.spec.*", "**/__test__/**", "**/__tests__/**"],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
 }

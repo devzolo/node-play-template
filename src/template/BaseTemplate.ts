@@ -1,4 +1,4 @@
-import { v1 as uuidv1 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 import { Template } from './Template';
 
 export class BaseTemplate extends Template {
@@ -17,7 +17,7 @@ export class BaseTemplate extends Template {
   public constructor(path: string, name?: string, source = '') {
     super();
     this.path = path;
-    this.name = name || uuidv1();
+    this.name = name || randomUUID();
     if (!name && !source) {
       source = path;
     }

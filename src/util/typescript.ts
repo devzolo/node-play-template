@@ -1,21 +1,19 @@
 import ts from 'typescript';
-import path from 'path';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+
+const _require = createRequire(import.meta.url);
 
 export function typescriptTranspile(scriptSource: string, scriptName: string) {
   const sourcePathToSource = Object.create(null);
 
-  // eslint-disable-next-line global-require
-  require('source-map-support').install({
-    environment: 'node',
-    // Pass to source-map-support a custom function for retreiving sources
-    // from source paths. This runs after source-map-support's default logic,
-    // only if that logic fails to find the requested source.
-    retrieveFile: (sourcePath: any) => sourcePathToSource[sourcePath],
-  });
+  // Note: Modern Node.js has built-in source map support via --enable-source-maps flag
+  // No need for external source-map-support package
 
   const compilerOptions: ts.CompilerOptions = {
-    module: ts.ModuleKind.CommonJS,
-    jsx: ts.JsxEmit.React,
+    module: ts.ModuleKind.None,
+    jsx: ts.JsxEmit.ReactJSX,
+    jsxImportSource: '@kitajs/html',
     sourceMap: true,
     moduleResolution: ts.ModuleResolutionKind.Classic,
     allowJs: true,

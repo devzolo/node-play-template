@@ -1,12 +1,14 @@
 import vm from 'vm';
 import stream from 'stream';
-import React, { ReactElement } from 'react';
-import ReactDOMServer from 'react-dom/server';
+import { createRequire } from 'module';
+import '@kitajs/html/jsx-runtime';
 import { TemplateCompiler } from './TemplateCompiler';
 import { BaseTemplate } from './BaseTemplate';
 import { TemplateParser } from './TemplateParser';
 import { Token } from './Token';
 import { typescriptTranspile } from '@/util/typescript';
+
+const require = createRequire(import.meta.url);
 
 export class PageCompiler extends TemplateCompiler {
   req?: stream.Readable;
@@ -87,9 +89,9 @@ export class PageCompiler extends TemplateCompiler {
 
         const sandbox: any = {
           document: {
-            write: (text: string | ReactElement) => {
+            write: (text: string | any) => {
               if (typeof text === 'string') this.print(text);
-              else this.print(ReactDOMServer.renderToStaticMarkup(text));
+              else this.print(String(text));
             },
           },
           request: this.req,
@@ -97,7 +99,31 @@ export class PageCompiler extends TemplateCompiler {
           console,
           require,
           process,
-          React,
+          exports: {},
+          module: { exports: {} },
+          // JSX runtime functions for Kita HTML
+          _jsx: (type: any, props: any) => {
+            if (typeof type === 'string') {
+              const attrs = props ? Object.entries(props)
+                .filter(([key]) => key !== 'children')
+                .map(([key, value]) => `${key}="${value}"`)
+                .join(' ') : '';
+              const children = props?.children || '';
+              return attrs ? `<${type} ${attrs}>${children}</${type}>` : `<${type}>${children}</${type}>`;
+            }
+            return type(props);
+          },
+          _jsxs: (type: any, props: any) => {
+            if (typeof type === 'string') {
+              const attrs = props ? Object.entries(props)
+                .filter(([key]) => key !== 'children')
+                .map(([key, value]) => `${key}="${value}"`)
+                .join(' ') : '';
+              const children = Array.isArray(props?.children) ? props.children.join('') : (props?.children || '');
+              return attrs ? `<${type} ${attrs}>${children}</${type}>` : `<${type}>${children}</${type}>`;
+            }
+            return type(props);
+          },
         };
 
         for (const key in this.scope) {
