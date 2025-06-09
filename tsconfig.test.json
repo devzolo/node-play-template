@@ -14,16 +14,6 @@
     "sourceMap": true,
     "types": ["jest", "node"]
   },
-  "include": [
-    "./src/**/*",
-    "./src/**/*.test.ts",
-    "./src/**/*.spec.ts",
-    "./src/**/__test__/**/*",
-    "./src/**/__tests__/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "coverage"
-  ]
-} 
+  "include": ["./src/**/*", "./src/**/*.test.ts", "./src/**/*.spec.ts", "./src/**/__test__/**/*", "./src/**/__tests__/**/*"],
+  "exclude": ["node_modules", "dist", "coverage"]
+}
