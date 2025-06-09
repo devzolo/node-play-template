@@ -8,8 +8,6 @@ import { TemplateParser } from './TemplateParser';
 import { Token } from './Token';
 import { typescriptTranspile } from '@/util/typescript';
 
-const require = createRequire(import.meta.url);
-
 export class PageCompiler extends TemplateCompiler {
   req?: stream.Readable;
 
@@ -97,7 +95,7 @@ export class PageCompiler extends TemplateCompiler {
           request: this.req,
           response: this.res,
           console,
-          require,
+          require: createRequire(import.meta.url),
           process,
           exports: {},
           module: { exports: {} },

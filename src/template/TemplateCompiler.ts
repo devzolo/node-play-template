@@ -9,7 +9,7 @@ export abstract class TemplateCompiler {
   abstract plain(): void;
 
   // %{...}% or {%...%}
-  abstract script(): void;
+  abstract script(): void | Promise<string>;
 
   // ${...}
   abstract expr(): void;

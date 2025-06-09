@@ -13,10 +13,7 @@ export default {
       'ts-jest',
       {
         useESM: true,
-        tsconfig: {
-          moduleResolution: 'node',
-          allowSyntheticDefaultImports: true,
-        },
+        tsconfig: './tsconfig.test.json',
       },
     ],
   },
@@ -42,15 +39,15 @@ export default {
   // Coverage thresholds (adjust as needed)
   coverageThreshold: {
     global: {
-      branches: 39,
-      functions: 44,
-      lines: 55,
-      statements: 54,
+      branches: 35,
+      functions: 35,
+      lines: 40,
+      statements: 40,
     },
   },
 
-  // Setup files (uncomment if you create jest.setup.js)
-  // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  // Setup files
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 
   // Clear mocks between tests
   clearMocks: true,

@@ -20,16 +20,16 @@ afterEach(() => {
 
 // Console configuration for tests
 const originalConsoleError = console.error;
-console.error = (...args) => {
+console.error = (...args: any[]) => {
   // Filter out known warnings/errors that are expected in tests
   const message = args[0];
   if (typeof message === 'string') {
     // Add patterns here to suppress specific console errors in tests
-    const suppressPatterns = [
+    const suppressPatterns: string[] = [
       // Example: 'Warning: ReactDOM.render is deprecated'
     ];
 
-    if (suppressPatterns.some(pattern => message.includes(pattern))) {
+    if (suppressPatterns.some((pattern: string) => message.includes(pattern))) {
       return;
     }
   }
