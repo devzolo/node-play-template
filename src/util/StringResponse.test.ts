@@ -20,29 +20,29 @@ describe('StringResponse', () => {
   });
 
   describe('_write method', () => {
-    test('should write string data', (done) => {
+    test('should write string data', done => {
       const testData = 'Hello World';
-      
-      response._write(testData, 'utf8', (error) => {
+
+      response._write(testData, 'utf8', error => {
         expect(error).toBeUndefined();
         expect(response.data).toBe(testData);
         done();
       });
     });
 
-    test('should write buffer data', (done) => {
+    test('should write buffer data', done => {
       const testData = Buffer.from('Hello Buffer', 'utf8');
-      
-      response._write(testData, 'utf8', (error) => {
+
+      response._write(testData, 'utf8', error => {
         expect(error).toBeUndefined();
         expect(response.data).toBe('Hello Buffer');
         done();
       });
     });
 
-    test('should append multiple writes', (done) => {
+    test('should append multiple writes', done => {
       response._write('First ', 'utf8', () => {
-        response._write('Second', 'utf8', (error) => {
+        response._write('Second', 'utf8', error => {
           expect(error).toBeUndefined();
           expect(response.data).toBe('First Second');
           done();
@@ -50,36 +50,36 @@ describe('StringResponse', () => {
       });
     });
 
-    test('should handle different encodings', (done) => {
+    test('should handle different encodings', done => {
       const testData = 'Héllo Wörld';
-      
-      response._write(testData, 'utf8', (error) => {
+
+      response._write(testData, 'utf8', error => {
         expect(error).toBeUndefined();
         expect(response.data).toBe(testData);
         done();
       });
     });
 
-    test('should handle empty writes', (done) => {
-      response._write('', 'utf8', (error) => {
+    test('should handle empty writes', done => {
+      response._write('', 'utf8', error => {
         expect(error).toBeUndefined();
         expect(response.data).toBe('');
         done();
       });
     });
 
-    test('should handle numeric data', (done) => {
-      response._write(123, 'utf8', (error) => {
+    test('should handle numeric data', done => {
+      response._write(123, 'utf8', error => {
         expect(error).toBeUndefined();
         expect(response.data).toBe('123');
         done();
       });
     });
 
-    test('should handle object data', (done) => {
+    test('should handle object data', done => {
       const obj = { toString: () => 'custom object' };
-      
-      response._write(obj, 'utf8', (error) => {
+
+      response._write(obj, 'utf8', error => {
         expect(error).toBeUndefined();
         expect(response.data).toBe('custom object');
         done();
@@ -124,7 +124,7 @@ describe('StringResponse', () => {
   });
 
   describe('stream integration', () => {
-    test('should work with write method', (done) => {
+    test('should work with write method', done => {
       response.write('Hello ');
       response.write('World', () => {
         expect(response.data).toBe('Hello World');
@@ -132,7 +132,7 @@ describe('StringResponse', () => {
       });
     });
 
-    test('should work with end method', (done) => {
+    test('should work with end method', done => {
       response.write('Test data');
       response.end(() => {
         expect(response.data).toBe('Test data');
@@ -140,15 +140,15 @@ describe('StringResponse', () => {
       });
     });
 
-    test('should handle write with callback', (done) => {
-      response.write('Callback test', (error) => {
+    test('should handle write with callback', done => {
+      response.write('Callback test', error => {
         expect(error).toBeNull();
         expect(response.data).toBe('Callback test');
         done();
       });
     });
 
-    test('should handle multiple writes in sequence', (done) => {
+    test('should handle multiple writes in sequence', done => {
       response.write('Part 1 ');
       response.write('Part 2 ');
       response.write('Part 3', () => {
@@ -159,9 +159,9 @@ describe('StringResponse', () => {
   });
 
   describe('real-world scenarios', () => {
-    test('should handle HTML content', (done) => {
+    test('should handle HTML content', done => {
       const htmlContent = '<html><head><title>Test</title></head><body><h1>Hello</h1></body></html>';
-      
+
       response.write(htmlContent, () => {
         expect(response.data).toBe(htmlContent);
         expect(response.data).toContain('<title>Test</title>');
@@ -170,9 +170,9 @@ describe('StringResponse', () => {
       });
     });
 
-    test('should handle JSON data', (done) => {
+    test('should handle JSON data', done => {
       const jsonData = JSON.stringify({ name: 'John', age: 30, active: true });
-      
+
       response.write(jsonData, () => {
         expect(response.data).toBe(jsonData);
         const parsed = JSON.parse(response.data);
@@ -183,9 +183,9 @@ describe('StringResponse', () => {
       });
     });
 
-    test('should handle large data chunks', (done) => {
+    test('should handle large data chunks', done => {
       const largeData = 'x'.repeat(100000);
-      
+
       response.write(largeData, () => {
         expect(response.data).toBe(largeData);
         expect(response.data.length).toBe(100000);
@@ -193,7 +193,7 @@ describe('StringResponse', () => {
       });
     });
 
-    test('should handle template compilation output', (done) => {
+    test('should handle template compilation output', done => {
       // Simulate template compilation output
       response.write('<!DOCTYPE html>\n');
       response.write('<html>\n');
@@ -216,7 +216,7 @@ describe('StringResponse', () => {
       });
     });
 
-    test('should handle mixed content types', (done) => {
+    test('should handle mixed content types', done => {
       response.write('Text: ');
       response.write(Buffer.from('Buffer content ', 'utf8'));
       response.write('42'); // Convert number to string
@@ -228,25 +228,25 @@ describe('StringResponse', () => {
   });
 
   describe('error handling', () => {
-    test('should handle null data gracefully', (done) => {
-      response._write(null, 'utf8', (error) => {
+    test('should handle null data gracefully', done => {
+      response._write(null, 'utf8', error => {
         expect(error).toBeUndefined();
         expect(response.data).toBe('null');
         done();
       });
     });
 
-    test('should handle undefined data gracefully', (done) => {
-      response._write(undefined, 'utf8', (error) => {
+    test('should handle undefined data gracefully', done => {
+      response._write(undefined, 'utf8', error => {
         expect(error).toBeUndefined();
         expect(response.data).toBe('undefined');
         done();
       });
     });
 
-    test('should handle boolean data', (done) => {
+    test('should handle boolean data', done => {
       response._write(true, 'utf8', () => {
-        response._write(false, 'utf8', (error) => {
+        response._write(false, 'utf8', error => {
           expect(error).toBeUndefined();
           expect(response.data).toBe('truefalse');
           done();
@@ -256,7 +256,7 @@ describe('StringResponse', () => {
   });
 
   describe('performance', () => {
-    test('should handle many small writes efficiently', (done) => {
+    test('should handle many small writes efficiently', done => {
       const startTime = Date.now();
       let writeCount = 0;
       const totalWrites = 1000;
@@ -279,11 +279,11 @@ describe('StringResponse', () => {
       writeNext();
     });
 
-    test('should handle rapid successive writes', (done) => {
+    test('should handle rapid successive writes', done => {
       for (let i = 0; i < 100; i++) {
         response.write(`${i} `);
       }
-      
+
       // Give it a moment to process
       setTimeout(() => {
         expect(response.data).toContain('0 ');
@@ -295,13 +295,13 @@ describe('StringResponse', () => {
   });
 
   describe('edge cases', () => {
-    test('should handle data reset after writes', (done) => {
+    test('should handle data reset after writes', done => {
       response.write('Initial data', () => {
         expect(response.data).toBe('Initial data');
-        
+
         response.data = '';
         expect(response.data).toBe('');
-        
+
         response.write('New data', () => {
           expect(response.data).toBe('New data');
           done();
@@ -314,17 +314,17 @@ describe('StringResponse', () => {
       const data1 = response.data;
       response.data = 'modified';
       const data2 = response.data;
-      
+
       expect(data1).toBe('initial');
       expect(data2).toBe('modified');
     });
 
-    test('should maintain data integrity across operations', (done) => {
+    test('should maintain data integrity across operations', done => {
       response.write('Start ');
-      
+
       setTimeout(() => {
         response.write('Middle ');
-        
+
         setTimeout(() => {
           response.write('End', () => {
             expect(response.data).toBe('Start Middle End');
@@ -334,4 +334,4 @@ describe('StringResponse', () => {
       }, 5);
     });
   });
-}); 
+});

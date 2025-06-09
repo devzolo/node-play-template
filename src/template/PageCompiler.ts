@@ -104,10 +104,12 @@ export class PageCompiler extends TemplateCompiler {
           // JSX runtime functions for Kita HTML
           _jsx: (type: any, props: any) => {
             if (typeof type === 'string') {
-              const attrs = props ? Object.entries(props)
-                .filter(([key]) => key !== 'children')
-                .map(([key, value]) => `${key}="${value}"`)
-                .join(' ') : '';
+              const attrs = props
+                ? Object.entries(props)
+                    .filter(([key]) => key !== 'children')
+                    .map(([key, value]) => `${key}="${value}"`)
+                    .join(' ')
+                : '';
               const children = props?.children || '';
               return attrs ? `<${type} ${attrs}>${children}</${type}>` : `<${type}>${children}</${type}>`;
             }
@@ -115,11 +117,13 @@ export class PageCompiler extends TemplateCompiler {
           },
           _jsxs: (type: any, props: any) => {
             if (typeof type === 'string') {
-              const attrs = props ? Object.entries(props)
-                .filter(([key]) => key !== 'children')
-                .map(([key, value]) => `${key}="${value}"`)
-                .join(' ') : '';
-              const children = Array.isArray(props?.children) ? props.children.join('') : (props?.children || '');
+              const attrs = props
+                ? Object.entries(props)
+                    .filter(([key]) => key !== 'children')
+                    .map(([key, value]) => `${key}="${value}"`)
+                    .join(' ')
+                : '';
+              const children = Array.isArray(props?.children) ? props.children.join('') : props?.children || '';
               return attrs ? `<${type} ${attrs}>${children}</${type}>` : `<${type}>${children}</${type}>`;
             }
             return type(props);

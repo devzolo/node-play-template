@@ -1,14 +1,7 @@
 {
   "watch": ["src"],
   "ext": "ts,tsx,js,jsx,json",
-  "ignore": [
-    "src/**/*.test.ts",
-    "src/**/*.spec.ts", 
-    "src/**/__test__/**",
-    "node_modules",
-    "dist",
-    "coverage"
-  ],
+  "ignore": ["src/**/*.test.ts", "src/**/*.spec.ts", "src/**/__test__/**", "node_modules", "dist", "coverage"],
   "exec": "tsx src/index.ts",
   "restartable": "rs",
   "delay": 100,

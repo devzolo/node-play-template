@@ -11,7 +11,7 @@
 
 **🚀 A powerful and modern template engine for Node.js with JSX support using Kita HTML**
 
-*Fast • TypeScript • Server-Side Rendering • JSX Compatible*
+_Fast • TypeScript • Server-Side Rendering • JSX Compatible_
 
 </div>
 
@@ -92,19 +92,19 @@ The core template class for creating and managing templates.
 
 ```typescript
 class BaseTemplate extends Template {
-  constructor(path: string, name?: string, source?: string)
-  
+  constructor(path: string, name?: string, source?: string);
+
   // Properties
-  path: string
-  compiledSource: string
-  linesMatrix: number[]
-  compiledTemplate: string
-  compiledTemplateName: string
-  timestamp: number
-  
+  path: string;
+  compiledSource: string;
+  linesMatrix: number[];
+  compiledTemplate: string;
+  compiledTemplateName: string;
+  timestamp: number;
+
   // Methods
-  getCompiledSource(): string
-  getCompiledBytes(): string
+  getCompiledSource(): string;
+  getCompiledBytes(): string;
 }
 ```
 
@@ -114,22 +114,22 @@ Handles template compilation and execution with scope management.
 
 ```typescript
 class PageCompiler extends TemplateCompiler {
-  constructor(scope?: Record<string, unknown>)
-  
+  constructor(scope?: Record<string, unknown>);
+
   // Methods
-  execute(opts: ExecuteOptions): Promise<string>
-  print(text: string): void
-  println(text?: string): void
-  write(text: string): void
-  writeln(text?: string): void
-  clear(): void
+  execute(opts: ExecuteOptions): Promise<string>;
+  print(text: string): void;
+  println(text?: string): void;
+  write(text: string): void;
+  writeln(text?: string): void;
+  clear(): void;
 }
 
 interface ExecuteOptions {
-  template: BaseTemplate
-  req?: stream.Readable
-  res?: stream.Writable
-  next?: (err?: any) => void
+  template: BaseTemplate;
+  req?: stream.Readable;
+  res?: stream.Writable;
+  next?: (err?: any) => void;
 }
 ```
 
@@ -139,13 +139,13 @@ A writable stream for capturing template output.
 
 ```typescript
 class StringResponse extends stream.Writable {
-  constructor()
-  
+  constructor();
+
   // Properties
-  data: string
-  
+  data: string;
+
   // Methods
-  _write(chunk: any, encoding: any, done: Function): void
+  _write(chunk: any, encoding: any, done: Function): void;
 }
 ```
 
@@ -184,8 +184,8 @@ const scope = {
   user: { name: 'John Doe', email: 'john@example.com' },
   products: [
     { id: 1, name: 'Laptop', price: 999 },
-    { id: 2, name: 'Phone', price: 599 }
-  ]
+    { id: 2, name: 'Phone', price: 599 },
+  ],
 };
 
 const template = new BaseTemplate(`
@@ -283,16 +283,16 @@ app.get('/', async (req, res) => {
       document.write(HomePage());
     }%
   `);
-  
+
   const stringRes = new StringResponse();
   const compiler = new PageCompiler();
-  
-  await compiler.execute({ 
-    template, 
-    req, 
-    res: stringRes 
+
+  await compiler.execute({
+    template,
+    req,
+    res: stringRes,
   });
-  
+
   res.type('html').send(stringRes.data);
 });
 
@@ -340,9 +340,9 @@ const compiler = new PageCompiler({
   title: 'My Application',
   version: '1.0.0',
   utils: {
-    formatDate: (date) => date.toLocaleDateString(),
-    slugify: (text) => text.toLowerCase().replace(/\s+/g, '-')
-  }
+    formatDate: date => date.toLocaleDateString(),
+    slugify: text => text.toLowerCase().replace(/\s+/g, '-'),
+  },
 });
 ```
 
@@ -369,7 +369,7 @@ interface TemplateScope {
 
 const scope: TemplateScope = {
   user: { id: 1, name: 'John', email: 'john@test.com' },
-  config: { siteName: 'My Site', version: '1.0.0' }
+  config: { siteName: 'My Site', version: '1.0.0' },
 };
 
 const compiler = new PageCompiler(scope);

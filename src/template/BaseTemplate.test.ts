@@ -120,11 +120,11 @@ describe('BaseTemplate', () => {
     test('should clear source when finalized', () => {
       template.setSource('Initial source');
       expect(template.getSource()).toBe('Initial source');
-      
+
       template.finalize();
       expect(template.getSource()).toBe('');
     });
-    
+
     test('should handle finalize with null source', () => {
       template.setSource('');
       template.finalize();
@@ -149,12 +149,12 @@ describe('BaseTemplate', () => {
         </html>
         `
       );
-      
+
       expect(complexTemplate.path).toBe('/templates/complex.html');
       expect(complexTemplate.name).toBe('complex-template');
       expect(complexTemplate.getSource()).toContain('Dynamic Title');
       expect(complexTemplate.compiledSource).toBe('');
-      
+
       // Simulate compilation
       complexTemplate.compiledSource = '<html><head><title>Dynamic Title</title></head><body><h1>Welcome</h1></body></html>';
       expect(complexTemplate.getCompiledSource()).toContain('Dynamic Title');
@@ -163,7 +163,7 @@ describe('BaseTemplate', () => {
     test('should preserve path and name relationship', () => {
       const template1 = new BaseTemplate('/path/file1.html', 'template1', 'content1');
       const template2 = new BaseTemplate('/path/file2.html', 'template2', 'content2');
-      
+
       expect(template1.path).not.toBe(template2.path);
       expect(template1.name).not.toBe(template2.name);
       expect(template1.getSource()).not.toBe(template2.getSource());
@@ -172,11 +172,11 @@ describe('BaseTemplate', () => {
     test('should handle template reuse', () => {
       const originalSource = '<div>Original</div>';
       template.setSource(originalSource);
-      
+
       const newSource = '<div>Updated</div>';
       template.setSource(newSource);
-      
+
       expect(template.getSource()).toBe(newSource);
     });
   });
-}); 
+});

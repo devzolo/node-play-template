@@ -121,7 +121,7 @@ describe('PageCompiler', () => {
     test('should handle complex scope objects', async () => {
       const complexScope = {
         user: { name: 'Bob', profile: { city: 'NYC' } },
-        settings: { theme: 'dark' }
+        settings: { theme: 'dark' },
       };
       const scopedCompiler = new PageCompiler(complexScope);
       template = new BaseTemplate('Info: %{document.write(user.name + " from " + user.profile.city)}%');
@@ -132,7 +132,7 @@ describe('PageCompiler', () => {
     test('should handle scope with functions', async () => {
       const scopeWithFunctions = {
         formatName: (name: string) => name.toUpperCase(),
-        multiply: (a: number, b: number) => a * b
+        multiply: (a: number, b: number) => a * b,
       };
       const scopedCompiler = new PageCompiler(scopeWithFunctions);
       template = new BaseTemplate('Result: %{document.write(formatName("john") + " " + multiply(3, 4))}%');
@@ -143,7 +143,7 @@ describe('PageCompiler', () => {
     test('should handle scope with arrays', async () => {
       const scopeWithArrays = {
         items: ['apple', 'banana', 'cherry'],
-        numbers: [10, 20, 30]
+        numbers: [10, 20, 30],
       };
       const scopedCompiler = new PageCompiler(scopeWithArrays);
       template = new BaseTemplate('List: %{document.write(items.join(", ") + " | " + numbers.reduce((a,b) => a+b, 0))}%');
@@ -199,7 +199,7 @@ describe('PageCompiler', () => {
   describe('error handling', () => {
     test('should handle syntax errors gracefully', async () => {
       template = new BaseTemplate('Error: %{document.write(invalidVariable)}%');
-      
+
       // The compiler catches errors and prints them, but doesn't rethrow
       const result = await compiler.execute({ template });
       expect(result).toContain('Error:');
@@ -207,7 +207,7 @@ describe('PageCompiler', () => {
 
     test('should handle runtime errors in scripts', async () => {
       template = new BaseTemplate('Error: %{throw new Error("Test error")}%');
-      
+
       // The compiler catches errors and prints them, but doesn't rethrow
       const result = await compiler.execute({ template });
       expect(result).toContain('Error:');
@@ -215,7 +215,7 @@ describe('PageCompiler', () => {
 
     test('should handle undefined function calls', async () => {
       template = new BaseTemplate('Error: %{nonExistentFunction()}%');
-      
+
       // The compiler catches errors and prints them, but doesn't rethrow
       const result = await compiler.execute({ template });
       expect(result).toContain('Error:');
@@ -228,7 +228,7 @@ describe('PageCompiler', () => {
         read() {
           this.push('test data');
           this.push(null);
-        }
+        },
       });
 
       template = new BaseTemplate('Stream test: %{document.write("OK")}%');
@@ -245,7 +245,7 @@ describe('PageCompiler', () => {
     test('should handle next callback', async () => {
       const nextCallback = jest.fn();
       template = new BaseTemplate('Callback test: %{document.write("done")}%');
-      
+
       await compiler.execute({ template, next: nextCallback });
       expect(template.compiledSource).toBe('Callback test: done');
     });
@@ -273,10 +273,10 @@ describe('PageCompiler', () => {
           </body>
         </html>
       `;
-      
+
       template = new BaseTemplate(htmlTemplate);
       await compiler.execute({ template });
-      
+
       expect(template.compiledSource).toContain('<!DOCTYPE html>');
       expect(template.compiledSource).toContain('<title>Dynamic Page</title>');
       expect(template.compiledSource).toContain('<h1>Welcome</h1>');
@@ -288,7 +288,7 @@ describe('PageCompiler', () => {
     test('should handle conditional rendering', async () => {
       const conditionalScope = { showMessage: true, userName: 'Alice' };
       const conditionalCompiler = new PageCompiler(conditionalScope);
-      
+
       const conditionalTemplate = `
         <div>
           %{
@@ -300,18 +300,23 @@ describe('PageCompiler', () => {
           }%
         </div>
       `;
-      
+
       template = new BaseTemplate(conditionalTemplate);
       await conditionalCompiler.execute({ template });
-      
+
       expect(template.compiledSource).toContain('<p>Hello Alice!</p>');
       expect(template.compiledSource).not.toContain('<p>No message</p>');
     });
 
     test('should handle loops and iterations', async () => {
-      const loopScope = { products: [{ name: 'A', price: 10 }, { name: 'B', price: 20 }] };
+      const loopScope = {
+        products: [
+          { name: 'A', price: 10 },
+          { name: 'B', price: 20 },
+        ],
+      };
       const loopCompiler = new PageCompiler(loopScope);
-      
+
       const loopTemplate = `
         <div>
           %{
@@ -321,10 +326,10 @@ describe('PageCompiler', () => {
           }%
         </div>
       `;
-      
+
       template = new BaseTemplate(loopTemplate);
       await loopCompiler.execute({ template });
-      
+
       expect(template.compiledSource).toContain('<div>A: $10</div>');
       expect(template.compiledSource).toContain('<div>B: $20</div>');
     });
@@ -336,10 +341,10 @@ describe('PageCompiler', () => {
           promise.then(result => document.write(result));
         }%
       `;
-      
+
       template = new BaseTemplate(asyncTemplate);
       await compiler.execute({ template });
-      
+
       // Note: This test might need adjustment based on how async is handled
       expect(template.compiledSource).toContain('Result:');
     });
@@ -385,12 +390,12 @@ describe('PageCompiler', () => {
     test('should handle large templates efficiently', async () => {
       const largeContent = 'x'.repeat(10000);
       template = new BaseTemplate(`Large: %{document.write("${largeContent}")}%`);
-      
+
       const startTime = Date.now();
       await compiler.execute({ template });
       const endTime = Date.now();
-      
-             expect(template.compiledSource).toContain(`Large: ${largeContent}`);
+
+      expect(template.compiledSource).toContain(`Large: ${largeContent}`);
       expect(endTime - startTime).toBeLessThan(1000); // Should complete within 1 second
     });
 
@@ -399,10 +404,10 @@ describe('PageCompiler', () => {
       for (let i = 0; i < 100; i++) {
         manyScriptsTemplate += `Block ${i}: %{document.write("${i}")}% `;
       }
-      
+
       template = new BaseTemplate(manyScriptsTemplate);
       await compiler.execute({ template });
-      
+
       expect(template.compiledSource).toContain('Block 0: 0');
       expect(template.compiledSource).toContain('Block 99: 99');
     });
@@ -419,4 +424,4 @@ describe('PageCompiler', () => {
       expect(template.compiledSource).toBe(`Quote test: "Hello 'World'"`);
     });
   });
-}); 
+});

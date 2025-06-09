@@ -88,7 +88,7 @@ describe('Main module exports', () => {
     const complexScope = {
       user: { name: 'John', age: 30 },
       items: ['apple', 'banana', 'cherry'],
-      formatName: (name: string) => name.toUpperCase()
+      formatName: (name: string) => name.toUpperCase(),
     };
 
     const complexTemplate = new BaseTemplate(`
@@ -122,7 +122,7 @@ describe('Main module exports', () => {
     await compiler.execute({ template: complexTemplate });
 
     const result = complexTemplate.compiledSource;
-    
+
     expect(result).toContain('<title>User Profile</title>');
     expect(result).toContain('<h1>Welcome JOHN!</h1>');
     expect(result).toContain('<p>Age: 30</p>');

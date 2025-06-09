@@ -17,37 +17,37 @@ jobs:
   test:
     name: Test & Lint
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
-      
+
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-      
+
       - name: Type check
         run: pnpm run type-check
-      
+
       - name: Lint check
         run: pnpm run lint:check
-      
+
       - name: Format check
         run: pnpm run format:check
-      
+
       - name: Run tests
         run: pnpm run test:coverage
-      
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
@@ -59,28 +59,28 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     needs: test
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
-      
+
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-      
+
       - name: Build package
         run: pnpm run build
-      
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -94,20 +94,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test, build]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
+
     permissions:
       contents: read
       packages: write
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -115,13 +115,13 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@devzolo'
           cache: 'pnpm'
-      
+
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-      
+
       - name: Build package
         run: pnpm run build
-      
+
       - name: Publish to GitHub Packages
         run: pnpm publish --no-git-checks
         env:
@@ -133,29 +133,29 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test, build]
     if: github.event_name == 'release'
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
-      
+
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-      
+
       - name: Build package
         run: pnpm run build
-      
+
       - name: Publish to NPM
         run: pnpm publish --access public --no-git-checks
         env:
@@ -166,29 +166,29 @@ jobs:
     name: Test on ${{ matrix.os }} with Node ${{ matrix.node-version }}
     runs-on: ${{ matrix.os }}
     if: github.event_name == 'pull_request'
-    
+
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: ['18.x', '20.x', '21.x']
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: ${{ env.PNPM_VERSION }}
-      
+
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      
+
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-      
+
       - name: Run tests
         run: pnpm test
