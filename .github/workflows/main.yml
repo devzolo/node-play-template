@@ -10,7 +10,7 @@ on:
 
 env:
   NODE_VERSION: '20.x'
-  PNPM_VERSION: '8.x'
+  PNPM_VERSION: '10.11.1'
 
 jobs:
   # Job para testes e linting
@@ -34,7 +34,7 @@ jobs:
           cache: 'pnpm'
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
       
       - name: Type check
         run: pnpm run type-check
@@ -76,7 +76,7 @@ jobs:
           cache: 'pnpm'
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
       
       - name: Build package
         run: pnpm run build
@@ -117,7 +117,7 @@ jobs:
           cache: 'pnpm'
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
       
       - name: Build package
         run: pnpm run build
@@ -151,7 +151,7 @@ jobs:
           cache: 'pnpm'
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
       
       - name: Build package
         run: pnpm run build
@@ -188,7 +188,7 @@ jobs:
           cache: 'pnpm'
       
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
       
       - name: Run tests
         run: pnpm test
