@@ -1,58 +1,39 @@
 {
-  "name": "@devzolo/node-play-template",
-  "version": "1.0.0",
-  "main": "dist",
-  "repository": "https://github.com/devzolo/node-play-template",
-  "publishConfig": {
-    "@devzolo:registry": "https://npm.pkg.github.com"
+  "name": "node-play-template-monorepo",
+  "version": "0.0.1",
+  "description": "monorepo for node-play-template and friends",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "packageManager": "pnpm@10.19.0+sha512.c9fc7236e92adf5c8af42fd5bf1612df99c2ceb62f27047032f4720b33f8eacdde311865e91c411f2774f618d82f320808ecb51718bfa82c060c4ba7c76a32b8",
+  "engines": {
+    "pnpm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devzolo/node-play-template.git"
   },
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
-    "postbuild": "yarn tsc --emitDeclarationOnly",
-    "dev": "cross-env NODE_ENV=development DEBUG=nope* tsnd -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
-    "test": "cross-env NODE_ENV=test jest",
-    "sync": "node ../../yarn-sync.js"
-  },
-  "dependencies": {
-    "cross-env": "^7.0.3",
-    "debug": "^4.3.2",
-    "dotenv": "^10.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "source-map-support": "^0.5.20",
-    "typescript": "^4.4.4",
-    "uuid": "^8.3.2"
+    "build": "pnpm -r --filter=./packages/* build",
+    "check": "pnpm -r --filter=./packages/* check",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --write",
+    "format": "biome format",
+    "format:fix": "biome format --write",
+    "changeset:version": "changeset version && git add --all",
+    "changeset:publish": "changeset publish",
+    "release:verify": "pnpm lint && pnpm build",
+    "release:version": "pnpm changeset:version",
+    "release:publish": "pnpm changeset:publish",
+    "bench": "node --allow-natives-syntax ./benchmarking/run.js",
+    "bench:compare": "node --allow-natives-syntax ./benchmarking/compare/index.js",
+    "bench:debug": "node --allow-natives-syntax --inspect-brk ./benchmarking/run.js",
+    "test": "pnpm -r --filter=./packages/* test"
   },
   "devDependencies": {
-    "@babel/cli": "^7.15.7",
-    "@babel/core": "^7.15.8",
-    "@babel/node": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
-    "@babel/preset-typescript": "^7.15.0",
-    "@types/babel__generator": "^7.6.3",
-    "@types/debug": "^4.1.7",
-    "@types/jest": "^27.0.2",
-    "@types/node": "^16.11.6",
-    "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.10",
-    "@types/uuid": "^8.3.1",
-    "@typescript-eslint/eslint-plugin": "^5.2.0",
-    "@typescript-eslint/parser": "^5.2.0",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "eslint": "^8.1.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "jest": "^27.3.1",
-    "prettier": "^2.4.1",
-    "ts-jest": "^27.0.7",
-    "ts-node-dev": "^1.1.8",
-    "tsconfig-paths": "^3.11.0"
+    "@biomejs/biome": "^2.2.6",
+    "@changesets/cli": "^2.29.7",
+    "@types/node": "^24.7.2",
+    "typescript": "^5.9.3"
   }
 }

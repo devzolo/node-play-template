@@ -1,0 +1,78 @@
+{
+  "name": "@devzolo/play-template",
+  "version": "0.2.0",
+  "description": "Play Template is a efficient templating system which allows to dynamically generate HTML, XML, JSON or any text-based formatted document. The template engine uses Typescript as an expression language.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "check": "tsc --noEmit",
+    "generate-version": "node generate-version.js",
+    "prepublishOnly": "npm run build",
+    "test": "ts-run --test ./tests/**/*.test.ts",
+    "knip": "pnpm dlx knip"
+  },
+  "keywords": [
+    "typescript",
+    "javascript",
+    "executor",
+    "cli",
+    "runtime",
+    "node",
+    "bun",
+    "deno",
+    "env",
+    "package-manager",
+    "ts",
+    "tsx",
+    "task",
+    "runner",
+    "script",
+    "npm",
+    "yarn",
+    "pnpm"
+  ],
+  "author": "devzolo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devzolo/node-play-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devzolo/node-play-template/issues"
+  },
+  "homepage": "https://github.com/devzolo/node-play-template#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
+  },
+  "dependencies": {
+    "@kitajs/html": "^4.2.9"
+  },
+  "devDependencies": {
+    "@devzolo/ts-run": "^0.2.0",
+    "@types/node": "^24.7.2",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "source-map-support": "*"
+  },
+  "peerDependenciesMeta": {
+    "source-map-support": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  }
+}

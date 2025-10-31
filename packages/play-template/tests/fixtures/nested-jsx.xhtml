@@ -1,0 +1,17 @@
+%{<script>
+  function Card({ title, children }) {
+    return (
+      <div class="card">
+        <h2>{title}</h2>
+        <div class="content">{children}</div>
+      </div>
+    );
+  }
+
+  const content = Card({
+    title: "Hello",
+    children: "World"
+  });
+
+  document.write(content);
+</script>}%
